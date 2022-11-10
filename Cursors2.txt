@@ -1,0 +1,76 @@
+
+1)   delimiter //
+     create procedure c1()
+     begin
+     declare last_row int default 0;
+     declare cname varchar(20);
+     declare cmarks int;
+     declare cur1 cursor for select name,marks from student;
+     declare continue handler for not found set last_row =1;
+     open cur1;
+     myloop:loop
+     fetch cur1 into cname,cmarks;
+     if last_row=1 then
+     select 'no record found' as "message";
+     leave myloop;
+     end if;
+     select cname;
+     end loop myloop;
+     close cur1;
+     end;//
+
+2)   delimiter $$
+     create procedure c2()
+     begin
+     declare last_row int default 0;
+     declare cid int;
+     declare cname varchar(20);
+     declare cmarks int ;
+     declare cur2 cursor for select id,name,marks from student;
+     declare continue handler for not found set last_row = 1;
+     open cur2;
+     myloop:loop
+     fetch cur2 into cid,cname,cmarks;
+     if last_row=1 then
+     select 'no record found' as "Message";
+     leave myloop;
+     end if;
+     select cid,cname,cmarks;
+     end loop myloop;
+     close cur2;
+     end;
+     $$
+
+3)   delimiter ##
+     create procedure c3(in dname varchar(10),inout email_list varchar(2000))
+     begin
+     declare v_email varchar(20);
+     declare last_row int default 0;
+     declare cur3 cursor for select email from student where department=dname;
+     declare continue handler for NOT FOUND set last_row = 1;
+     open cur3;
+     myloop:loop
+     fetch cur3 into v_email;
+     if last_row=1 then
+     leave myloop;
+     end if;
+     set email_list = concat(email_list,concat(' ',v_email));
+     end loop myloop;
+     end;
+     ##
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> set @email_list = '';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call c3('MECH',@email_list);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @email_list;
++----------------------------+
+| @email_list                |
++----------------------------+
+|  a_by@myc.edu a_bs@myc.edu |
++----------------------------+
+1 row in set (0.00 sec)
