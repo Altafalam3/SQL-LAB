@@ -1,0 +1,25 @@
+CREATE [OR REPLACE] FUNCTION function_name [parameters]
+ RETURN return_datatype; {IS, AS}
+ Declaration_section <variable,constant> ; 
+ BEGIN Execution_section 
+ Return return_variable; 
+ EXCEPTION exception section 
+ Return return_variable;
+ END;
+
+mysql> delimiter $$
+create function proprice(sell_price double)RETURNS varchar(20)
+DETERMINISTIC
+BEGIN
+DECLARE lvl varchar(20);
+IF sell_price<1000 THEN
+SET lvl='CHEAP';
+ELSEIF sell_price>3000 THEN
+SET lvl='EXPENSIVE';
+END IF;
+RETURN(lvl);
+END;
+$$
+
+mysql> select product_no,proprice(sell_price) from product_master;
+$$
