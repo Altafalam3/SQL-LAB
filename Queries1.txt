@@ -1,0 +1,231 @@
+1) Find out the names of all clients.
+mysql> select name from Client_master;
++-----------------+
+| name |
++-----------------+
+| Ivan Bayross |
+| Vandana Saitwal |
+| Pramada Jaguste |
+| Basu Navindgi |
+| Ravi Sreedharan |
+| Rukmini |
++-----------------+
+2) print the entire client_master table.
+mysql> select * from Client_master;
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+| Client_no | Name | Address1 | Address2 | City | State | Pincode | Bal_due |
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+| C00001 | Ivan Bayross | NULL | NULL | Bombay | Maharashtra | 400054 | 15000.00 |
+| C00002 | Vandana Saitwal | NULL | NULL | Madras | Tamil Nadu | 780001 | 0.00 |
+| C00003 | Pramada Jaguste | NULL | NULL | Bombay | Maharashtra | 400057 | 5000.00 |
+| C00004 | Basu Navindgi | NULL | NULL | Bombay | Maharashtra | 400056 | 0.00 |
+| C00005 | Ravi Sreedharan | NULL | NULL | Delhi | | 100001 | 2000.00 |
+| C00006 | Rukmini | NULL | NULL | Bombay | Maharashtra | 400050 | 15000.00 |
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+3) Retrieve the list of names and the cities of all the clients.
+mysql> select name,city from Client_master;
++-----------------+--------+
+| name | city |
++-----------------+--------+
+| Ivan Bayross | Bombay |
+| Vandana Saitwal | Madras |
+| Pramada Jaguste | Bombay |
+| Basu Navindgi | Bombay |
+| Ravi Sreedharan | Delhi |
+| Rukmini | Bombay |
++-----------------+--------+
+4) List the various products available from the product_master.
+mysql> select Description from product_master3;
++---------------+
+| Description |
++---------------+
+| 1.44 Floppies |
+| Monitors |
+| Mouse |
+| 1.22 Floppies |
+| Keyboards |
+| CD Drive |
+| 540 HDD |
+| 1.44 Drive |
+| 1.22 Drive |
+| discs |
++---------------+
+5) Find the name of all clients having 'a' as the second letter in their names.
+mysql> select name from Client_master where name like '_a%' ;
++-----------------+
+| name |
++-----------------+
+| Vandana Saitwal |
+| Basu Navindgi |
+| Ravi Sreedharan |
++-----------------+
+6) Find out the clients who stay in city whose second letter is 'a' .
+mysql> select name,city from Client_master where city like '_a%' ;
++-----------------+--------+
+| name | city |
++-----------------+--------+
+| Vandana Saitwal | Madras |
++-----------------+--------+
+7) Find the list of all clients who stay in bombay or city delhi or city madras.
+mysql> select name,city from Client_master where city="Bombay" OR city="Delhi" OR 
+city="Madras";
++-----------------+--------+
+| name | city |
++-----------------+--------+
+| Ivan Bayross | Bombay |
+| Vandana Saitwal | Madras |
+| Pramada Jaguste | Bombay |
+| Basu Navindgi | Bombay |
+| Ravi Sreedharan | Delhi |
+| Rukmini | Bombay |
++-----------------+--------+
+8) List all the clients who are located in 'Bombay'.
+mysql> select name,city from Client_master where city="Bombay" ;
++-----------------+--------+
+| name | city |
++-----------------+--------+
+| Ivan Bayross | Bombay |
+| Pramada Jaguste | Bombay |
+| Basu Navindgi | Bombay |
+| Rukmini | Bombay |
++-----------------+--------+
+9) Print the list of clients whose bal_due are greater than value 10000
+mysql> select name, Bal_due from Client_master where Bal_due>10000;
++--------------+----------+
+| name | Bal_due |
++--------------+----------+
+| Ivan Bayross | 15000.00 |
+| Rukmini | 15000.00 |
++--------------+----------+
+10) Print the information from sales_order table of order placed in month of january.
+mysql> select * from sales_order43 where (S_order_date LIKE '____-01-__');
++------------+--------------+-----------+-----------+-------------+-----------+-----------+------------+--------------+
+| S_order_no | S_order_date | Client_no | Dely_addr | Salesman_no | Dely_type | Billed_yn | Dely_date | Order_status |
++------------+--------------+-----------+-----------+-------------+-----------+-----------+------------+--------------+
+| O19001 | 1996-01-12 | C00001 | NULL | S00001 | F | N | 1996-01-20 | IP |
+| O19002 | 1996-01-25 | C00002 | NULL | S00002 | P | N | 1996-01-27 | C |
++------------+--------------+-----------+-----------+-------------+-----------+-----------+------------+--------------+
+11) Display order information for client_no 'c00001' and 'c00002' ;
+mysql> select * from Client_master where Client_no='C00001' OR 
+Client_no='C00002';
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+| Client_no | Name | Address1 | Address2 | City | State | Pincode | Bal_due |
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+| C00001 | Ivan Bayross | NULL | NULL | Bombay | Maharashtra | 400054 | 15000.00 |
+| C00002 | Vandana Saitwal | NULL | NULL | Madras | Tamil Nadu | 780001 | 0.00 |
++-----------+-----------------+----------+----------+--------+-------------+---------+----------+
+12) Find the products with description as '1.44 drive' and '1.22 drive' .
+mysql> select Product_no, Description from product_masterwhere Description='1.44 
+Drive' or Description='1.22 Drive';
++------------+-------------+
+| Product_no | Description |
++------------+-------------+
+| P07975 | 1.44 Drive |
+| P08865 | 1.22 Drive |
++------------+-------------+
+13) Find the product whose selling price is greater than 2000 and less than or equal to 5000
+mysql> select Product_no,Description,Sell_price from product_masterwhere 
+Sell_price BETWEEN 2000 AND 5000;
++------------+-------------+------------+
+| Product_no | Description | Sell_price |
++------------+-------------+------------+
+| P07868 | Keyboards | 3150.00 |
++------------+-------------+------------+
+
+
+14) Find the product whose selling price is more than 1500 and also find the new selling price as 
+original price * 15
+mysql> select Product_no,Description,Sell_price, Sell_price*15 as original_price 
+from product_masterwhere Sell_price >1500;
++------------+-------------+------------+----------------+
+| Product_no | Description | Sell_price | original_price |
++------------+-------------+------------+----------------+
+| P03453 | Monitors | 12000.00 | 180000.00 |
+| P07868 | Keyboards | 3150.00 | 47250.00 |
+| P07885 | CD Drive | 5250.00 | 78750.00 |
+| P07965 | HDD | 8400.00 | 126000.00 |
++------------+-------------+------------+----------------+
+15) Rename the new in the above query as new_price
+mysql> select Product_no,Description,Sell_price, Sell_price*15 as new_price from 
+product_masterwhere Sell_price >1500;
++------------+-------------+------------+-----------+
+| Product_no | Description | Sell_price | new_price |
++------------+-------------+------------+-----------+
+| P03453 | Monitors | 12000.00 | 180000.00 |
+| P07868 | Keyboards | 3150.00 | 47250.00 |
+| P07885 | CD Drive | 5250.00 | 78750.00 |
+| P07965 | HDD | 8400.00 | 126000.00 |
++------------+-------------+------------+-----------+
+16) Find the product whose cost price is less than 1500
+mysql> select Product_no,Description,Cost_price from product_masterwhere 
+Cost_price<1500;
++------------+---------------+------------+
+| Product_no | Description | Cost_price |
++------------+---------------+------------+
+| P00001 | 1.44 Floppies | 500.00 |
+| P06734 | Mouse | 1000.00 |
+| P07865 | 1.22 Floppies | 500.00 |
+| P07975 | 1.44 Drive | 1000.00 |
+| P08865 | 1.22 Drive | 1000.00 |
++------------+---------------+------------+
+17) List the product in sorted order of their description
+mysql>select Description from product_masterORDER BY Description ASC;
++---------------+
+| Description |
++---------------+
+| 1.22 Drive |
+| 1.22 Floppies |
+| 1.44 Drive |
+| 1.44 Floppies |
+| CD Drive |
+| HDD |
+| Keyboards |
+| Monitors |
+| Mouse |
++---------------+
+18) Calculate the square root of price of each product.
+mysql> select Product_no,Description,Cost_price,sqrt(Cost_price) as 
+square_root_of_cost_price from product_master3;
++------------+---------------+------------+---------------------------+
+| Product_no | Description | Cost_price | square_root_of_cost_price |
++------------+---------------+------------+---------------------------+
+| P00001 | 1.44 Floppies | 500.00 | 22.360679774997898 |
+| P03453 | Monitors | 11280.00 | 106.20734437881403 |
+| P06734 | Mouse | 1000.00 | 31.622776601683793 |
+| P07865 | 1.22 Floppies | 500.00 | 22.360679774997898 |
+| P07868 | Keyboards | 3050.00 | 55.226805085936306 |
+| P07885 | CD Drive | 5100.00 | 71.4142842854285 |
+| P07965 | HDD | 8000.00 | 89.44271909999159 |
+| P07975 | 1.44 Drive | 1000.00 | 31.622776601683793 |
+| P08865 | 1.22 Drive | 1000.00 | 31.622776601683793 |
++------------+---------------+------------+---------------------------+
+19) Divide the cost of product '540 HDD' by difference between its price and 100.
+select Cost_price/(Cost_price-100) as Difference from product_masterwhere 
+Description = 'HDD' ;
++------------+
+| Difference |
++------------+
+| 1.012658 |
++------------+
+20) List the names,city,state of clients not in the state of 'Maharashtra' .
+mysql>select name,city,state from Client_master where NOT state ='Maharashtra';
++-----------------+--------+------------+
+| name | city | state |
++-----------------+--------+------------+
+| Vandana Saitwal | Madras | Tamil Nadu |
+| Ravi Sreedharan | Delhi | |
++-----------------+--------+------------+
+21) List the product_no,description,sell_price of products whose description begin with letter 'M' .
+select Product_no,Description,Sell_price from product_masterwhere Description 
+like 'M%';
++------------+-------------+------------+
+| Product_no | Description | Sell_price |
++------------+-------------+------------+
+| P03453 | Monitors | 12000.00 |
+| P06734 | Mouse | 1050.00 |
++------------+-------------+------------+
+
+22) List of all orders that were cancelled in month of March.
+select * from sales_order43 where Order_status='C' AND S_order_date BETWEEN '1996-03-01' AND 
+'1996-03-31';
+Empty set
