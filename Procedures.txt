@@ -1,0 +1,32 @@
+mysql> delimiter &&
+create procedure my_pro(IN client_no int)
+begin
+select * from Client_master LIMIT client_no ;
+end;
+&&
+
+mysql> call my_pro(2);
+&&
++-----------+-----------------+----------+----------+--------+-------------+---------+---------+
+| Client_no | Name | Address1 | Address2 | City | State | Pincode | Bal_due |
++-----------+-----------------+----------+----------+--------+-------------+---------+---------+
+| C00001 | Ivan Bayross | NULL | NULL | Bombay | Maharashtra | 400054 | 1000.00 |
+| C00002 | Vandana Saitwal | NULL | NULL | Madras | Tamil Nadu | 780001 | 0.00 |
++-----------+-----------------+----------+----------+--------+-------------+---------+---------
+
+mysql> delimiter &&
+create procedure my_pro1(OUT client_no int)
+begin
+select COUNT(*) INTO client_no FROM Client_master;
+end;
+&&
+call my_pro1(@a);
+&&
+select @a;
+&&
+
++------+
+| @a |
++------+
+| 6 |
++------+
