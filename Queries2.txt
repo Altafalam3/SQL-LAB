@@ -1,0 +1,96 @@
+1) Print the description and total qty sold for each product.
+mysql> select s.Product_no,p.Description, sum(s.Qty_ordered) from 
+sales_order_details43 s,product_masterp where p.Product_no=s.Product_no group by 
+s.Product_no,p.Description;
++------------+---------------+--------------------+
+| Product_no | Description | sum(s.Qty_ordered) |
++------------+---------------+--------------------+
+| P00001 | 1.44 Floppies | 34 |
+| P03453 | Monitors | 6 |
+| P06734 | Mouse | 1 |
+| P07868 | Keyboards | 3 |
+| P07885 | CD Drive | 5 |
+| P07965 | HDD | 3 |
+| P07975 | 1.44 Drive | 6 |
++------------+---------------+--------------------+
+2) Find the value of each product sold.
+mysql> select s.Product_no,p.Description,sum(s.Qty_disp*s.Product_rate) "Sales Per 
+Product" from sales_order_details43 s,product_masterp where 
+p.Product_no=s.Product_no group by s.Product_no,p.Description;
++------------+---------------+-------------------+
+| Product_no | Description | Sales Per Product |
++------------+---------------+-------------------+
+| P00001 | 1.44 Floppies | 9975.00 |
+| P03453 | Monitors | 6300.00 |
+| P06734 | Mouse | 12000.00 |
+| P07868 | Keyboards | 9450.00 |
+| P07885 | CD Drive | 10500.00 |
+| P07965 | HDD | 8400.00 |
+| P07975 | 1.44 Drive | 3150.00 |
+
+
+1) Find the product_no and description of non-moving products (eg. products not being sold).
+mysql> select Product_no,Description from product_masterwhere Product_no not 
+in(select Product_no from sales_order_details43);
++------------+---------------+
+| Product_no | Description |
++------------+---------------+
+| P07865 | 1.22 Floppies |
+| P08865 | 1.22 Drive |
++------------+---------------+
+2) Find the customers name ,city and pincode for the client who has placed order no "O19001'.
+mysql> select Name,Address1,Address2,City,Pincode from Client_master where 
+Client_no in (select Client_no from sales_order43 where S_order_no='O19001');
++--------------+----------+----------+--------+---------+
+| Name | Address1 | Address2 | City | Pincode |
++--------------+----------+----------+--------+---------+
+| Ivan Bayross | NULL | NULL | Bombay | 400054 |
++--------------+----------+----------+--------+---------+
+1) Print the description and total qty sold for each product.
+mysql> select s.Product_no,p.Description, sum(s.Qty_ordered) from 
+sales_order_details43 s,product_masterp where p.Product_no=s.Product_no group by 
+s.Product_no,p.Description;
++------------+---------------+--------------------+
+| Product_no | Description | sum(s.Qty_ordered) |
++------------+---------------+--------------------+
+| P00001 | 1.44 Floppies | 34 |
+| P03453 | Monitors | 6 |
+| P06734 | Mouse | 1 |
+| P07868 | Keyboards | 3 |
+| P07885 | CD Drive | 5 |
+| P07965 | HDD | 3 |
+| P07975 | 1.44 Drive | 6 |
++------------+---------------+--------------------+
+2) Find the value of each product sold.
+mysql> select s.Product_no,p.Description,sum(s.Qty_disp*s.Product_rate) "Sales Per 
+Product" from sales_order_details43 s,product_masterp where 
+p.Product_no=s.Product_no group by s.Product_no,p.Description;
++------------+---------------+-------------------+
+| Product_no | Description | Sales Per Product |
++------------+---------------+-------------------+
+| P00001 | 1.44 Floppies | 9975.00 |
+| P03453 | Monitors | 6300.00 |
+| P06734 | Mouse | 12000.00 |
+| P07868 | Keyboards | 9450.00 |
+| P07885 | CD Drive | 10500.00 |
+| P07965 | HDD | 8400.00 |
+| P07975 | 1.44 Drive | 3150.00 |
+
+
+1) Find the product_no and description of non-moving products (eg. products not being sold).
+mysql> select Product_no,Description from product_masterwhere Product_no not 
+in(select Product_no from sales_order_details43);
++------------+---------------+
+| Product_no | Description |
++------------+---------------+
+| P07865 | 1.22 Floppies |
+| P08865 | 1.22 Drive |
++------------+---------------+
+2) Find the customers name ,city and pincode for the client who has placed order no "O19001'.
+mysql> select Name,Address1,Address2,City,Pincode from Client_master where 
+Client_no in (select Client_no from sales_order43 where S_order_no='O19001');
++--------------+----------+----------+--------+---------+
+| Name | Address1 | Address2 | City | Pincode |
++--------------+----------+----------+--------+---------+
+| Ivan Bayross | NULL | NULL | Bombay | 400054 |
++--------------+----------+----------+--------+---------+
