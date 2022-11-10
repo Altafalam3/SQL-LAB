@@ -1,0 +1,97 @@
+Example 1 : 
+mysql> delimiter $$
+CREATE procedure CPr()
+BEGIN
+DECLARE done INT(10) DEFAULT 0;
+DECLARE i varchar(20);
+DECLARE n varchar(100);
+declare curs1 CURSOR FOR select roll_no,name from Student;
+declare CONTINUE HANDLER FOR NOT FOUND set done=1;
+OPEN curs1;
+read_loop:LOOP
+fetch curs1 INTO i,n;
+If done=1 THEN
+leave read_loop;
+end if;
+select i,n;
+end loop read_loop;
+close curs1;
+end;
+$$
+mysql> CALL CPr();
+$$
++------+--------+
+| i | n |
++------+--------+
+| 28 | SHANIA |
++------+--------+
++------+--------+
+| i | n |
++------+--------+
+| 36 | SIMRAN |
++------+--------+
++------+------+
+| i | n |
++------+------+
+| 12 | NEHA |
++------+------+
+
+Example 2 :
+mysql> alter table person add column email varchar(50);
+-> $$
+mysql> update person set email='aman@gmail.com' where id like 38;
+ -> update person set email='anish@gmail.com' where id like 43;
+ -> update person set email='anvay@gmail.com' where id like 63;
+ -> $$
+mysql> select * from person;
+ -> $$
++-------+----------+----+-----------------+
+| fname | lname | id | email |
++-------+----------+----+-----------------+
+| aman | kapadia | 38 | aman@gmail.com |
+| anish | kirtikar | 43 | anish@gmail.com |
+| anvay | shroff | 63 | anvay@gmail.com |
++-------+----------+----+-----------------+
+
+mysql> delimiter $$
+CREATE procedure build_email_list(INOUT email_list varchar(400))
+BEGIN
+DECLARE v_finished INTEGER DEFAULT 0;
+declare v_email varchar(100) DEFAULT "";
+DECLARE email_cursor CURSOR FOR
+SELECT email from person;
+DECLARE CONTINUE HANDLER
+FOR NOT FOUND set v_finished=1;
+OPEN email_cursor;
+get_email:LOOP
+FETCH email_cursor INTO v_email;
+IF v_finished=1 THEN
+LEAVE get_email;
+END IF;
+SET email_list=CONCAT(v_email,";",email_list);
+END LOOP get_email;
+CLOSE email_cursor;
+END;
+$$
+SET @email_list="";
+$$
+CALL build_email_list(@email_list);
+$$
+select @email_list;
+$$
++-------------------------------------------------+
+| @email_list |
++-------------------------------------------------+
+| anvay@gmail.com;anish@gmail.com;aman@gmail.com; |
++-------------------------------------------------+
+SET @email_list="2";
+$$
+CALL build_email_list(@email_list);
+$$
+select @email_list;
+$$
++--------------------------------------------------+
+| @email_list |
++--------------------------------------------------+
+| anvay@gmail.com;anish@gmail.com;aman@gmail.com;2 |
++--------------------------------------------------+
